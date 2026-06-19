@@ -12,7 +12,7 @@ app.use(express.json());
 // Serve static files from the 'public' folder
 app.use(express.static('public'));
 
-// Data file – use a persistent path on Render
+// Data file
 const DATA_DIR = process.env.RENDER_DISK_PATH || './data';
 const DATA_FILE = path.join(DATA_DIR, 'data.json');
 
@@ -24,7 +24,6 @@ if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify({ applications: [] }));
 }
 
-// Helper functions
 function readData() {
     try {
         const raw = fs.readFileSync(DATA_FILE);
@@ -71,6 +70,11 @@ app.delete('/api/applications/:id', (req, res) => {
     data.applications = data.applications.filter(a => a.id !== id);
     writeData(data);
     res.status(204).send();
+});
+
+// Catch-all: serve index.html for any unknown routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
