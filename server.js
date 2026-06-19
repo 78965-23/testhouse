@@ -6,13 +6,18 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the 'public' folder
+// ============================================================
+// 1. SERVE STATIC FILES FROM THE 'public' FOLDER
+// ============================================================
 app.use(express.static('public'));
 
-// Data file
+// ============================================================
+// 2. DATA STORAGE (persistent disk on Render)
+// ============================================================
 const DATA_DIR = process.env.RENDER_DISK_PATH || './data';
 const DATA_FILE = path.join(DATA_DIR, 'data.json');
 
@@ -24,6 +29,7 @@ if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify({ applications: [] }));
 }
 
+// Helper functions
 function readData() {
     try {
         const raw = fs.readFileSync(DATA_FILE);
@@ -37,7 +43,9 @@ function writeData(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
-// API Routes
+// ============================================================
+// 3. API ROUTES
+// ============================================================
 app.get('/api/applications', (req, res) => {
     const data = readData();
     res.json(data.applications);
@@ -72,12 +80,18 @@ app.delete('/api/applications/:id', (req, res) => {
     res.status(204).send();
 });
 
-// Catch-all: serve index.html for any unknown routes
+// ============================================================
+// 4. FALLBACK – serve index.html for any unknown route
+// ============================================================
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ============================================================
+// 5. START SERVER
+// ============================================================
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
     console.log(`📁 Data stored at ${DATA_FILE}`);
+    console.log(`🔑 Admin password: 08092003`);
 });
