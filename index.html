@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertPortal – Official Certificates</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo"><i class="fas fa-award"></i>CertPortal</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="apply.html">Apply</a></li>
+                    <li><a href="status.html">Track</a></li>
+                    <li><a href="download.html">Download</a></li>
+                    <li><a href="admin.html" class="btn-admin">🔐 Admin</a></li>
+                </ul>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Official <span>Certificates</span> of Recognition</h1>
+            <p>Apply for prestigious certificates and get officially recognized.</p>
+            <a href="apply.html" class="btn-primary">Apply Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <h2>Available <span>Certificates</span></h2>
+            <div class="service-grid" id="certGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom"><p>All Rights Reserved @dEMO</p></div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const certificates = [
+            { id: 'funniest-man', name: 'Funniest Man of the Year', icon: 'fa-face-laugh', desc: 'Recognized for outstanding humor.' },
+            { id: 'tallest-man', name: 'Tallest Man of India', icon: 'fa-person', desc: 'Officially recognized for exceptional height.' },
+            { id: 'millionaire', name: 'Millionaire Certificate', icon: 'fa-coins', desc: 'Recognition of achieving millionaire status.' },
+            { id: 'billionaire', name: 'Billionaire Certificate', icon: 'fa-gem', desc: 'Recognition of achieving billionaire status.' },
+            { id: 'trillionaire', name: 'Trillionaire Certificate', icon: 'fa-crown', desc: 'Recognition of achieving trillionaire status.' },
+            { id: 'content-creator', name: 'Content Creator Certificate', icon: 'fa-video', desc: 'Recognized for excellence in content creation.' }
+        ];
+        document.getElementById('certGrid').innerHTML = certificates.map(c => `
+            <div class="service-card">
+                <i class="fas ${c.icon}"></i>
+                <h3>${c.name}</h3>
+                <p>${c.desc}</p>
+                <a href="apply.html?type=${c.id}" class="apply-btn">Apply <i class="fas fa-arrow-right"></i></a>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
